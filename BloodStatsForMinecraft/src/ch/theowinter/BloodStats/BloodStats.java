@@ -65,7 +65,7 @@ public class BloodStats extends JavaPlugin{
 			// SEND UPDATED VALUE
 			Map<String, String> data = new HashMap<String, String>();
 			data.put("timeStamp", getUnixTimeStamp());
-			data.put("servername", ""+i);
+			data.put(servername, ""+i);
 			try {
 				submitToWeb(uploadURL, data);
 			} catch (Exception e) {
