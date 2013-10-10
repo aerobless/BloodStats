@@ -18,11 +18,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BloodStats extends JavaPlugin{
 	
 	int onlinePlayers = 0;
+	String servername = "";
+	String uploadURL = "";
 	
 	 @Override
 	    public void onEnable(){
 	        // TODO Insert logic to be performed when the plugin is enabled
 		 this.saveDefaultConfig();
+		 servername = BloodStats.this.getConfig().getString("server");
+		 uploadURL = BloodStats.this.getConfig().getString("uploadURL");
 		 getLogger().info("BloodStats successfully started");
 		 StatsTracker();
 	    }
@@ -41,7 +45,7 @@ public class BloodStats extends JavaPlugin{
 	            	checkStats();
 	            	StatsTracker();
 	            }
-	        }, 60*20L  );
+	        }, 100*20L  );
 	    }
 	    
 
@@ -52,7 +56,6 @@ public class BloodStats extends JavaPlugin{
 	    	int currentPlayersOnline = player.length;
 	    	if (currentPlayersOnline != onlinePlayers) {
     		 	getLogger().info("Updating stats with new playerCount");
-	    		String servername = BloodStats.this.getConfig().getString("server");
 	    		updateDatabase(servername, currentPlayersOnline);
 	    		onlinePlayers = (currentPlayersOnline+0);
 	    	}
@@ -64,7 +67,7 @@ public class BloodStats extends JavaPlugin{
 			data.put("timeStamp", getUnixTimeStamp());
 			data.put("servername", ""+i);
 			try {
-				submitToWeb(BloodStats.this.getConfig().getString("uploadURL"), data);
+				submitToWeb(uploadURL, data);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
