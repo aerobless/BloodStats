@@ -44,6 +44,8 @@ public class BloodStats extends JavaPlugin{
 	        }, 60*20L  );
 	    }
 	    
+
+	    //Getting players from single bukkit server
 	    public void checkStats(){
 	    	Player[] player = Bukkit.getServer().getOnlinePlayers();
 	    	
@@ -55,12 +57,12 @@ public class BloodStats extends JavaPlugin{
 	    		onlinePlayers = (currentPlayersOnline+0);
 	    	}
 	    }
-	    
+	 
 	    public void updateDatabase(String servername, int i) {
 			// SEND UPDATED VALUE
 			Map<String, String> data = new HashMap<String, String>();
-			data.put("server", servername);
-			data.put("playerCount", ""+i);
+			data.put("timeStamp", getUnixTimeStamp());
+			data.put("servername", ""+i);
 			try {
 				submitToWeb(BloodStats.this.getConfig().getString("uploadURL"), data);
 			} catch (Exception e) {
@@ -99,5 +101,14 @@ public class BloodStats extends JavaPlugin{
 			}
 			in.close();
 		}
+	    
+	    public String getUnixTimeStamp(){
+			long unixTime = System.currentTimeMillis() / 1000L;
+			long makeUnixTimeImprecise = unixTime/100;
+			makeUnixTimeImprecise = makeUnixTimeImprecise*100;
+			System.out.println(makeUnixTimeImprecise);
+			//Time made unprecise for 100s to allow for all servers to post stats.
+			return Long.toString(makeUnixTimeImprecise);
+	    }
 
 }
