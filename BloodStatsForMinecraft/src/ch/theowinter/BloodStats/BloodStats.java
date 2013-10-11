@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BloodStats extends JavaPlugin{
 	
-	int onlinePlayers = 0;
 	String servername = "";
 	String uploadURL = "";
 	
@@ -54,10 +53,9 @@ public class BloodStats extends JavaPlugin{
 	    	Player[] player = Bukkit.getServer().getOnlinePlayers();
 	    	
 	    	int currentPlayersOnline = player.length;
-	    	if (currentPlayersOnline != onlinePlayers) {
+	    	if (currentPlayersOnline > 0) {
     		 	getLogger().info("Updating stats with new playerCount");
 	    		updateDatabase(servername, currentPlayersOnline);
-	    		onlinePlayers = (currentPlayersOnline+0);
 	    	}
 	    }
 	 
