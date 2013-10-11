@@ -19,6 +19,7 @@ public class BloodStats extends JavaPlugin{
 	
 	String servername = "";
 	String uploadURL = "";
+	int lastPlayerCount = 0;
 	
 	 @Override
 	    public void onEnable(){
@@ -56,6 +57,13 @@ public class BloodStats extends JavaPlugin{
 	    	if (currentPlayersOnline > 0) {
     		 	getLogger().info("Updating stats with new playerCount");
 	    		updateDatabase(servername, currentPlayersOnline);
+	    		lastPlayerCount = currentPlayersOnline;
+	    	}
+	    //Sentinel to make sure that stats are set to 0 if all players left
+	    	else if (lastPlayerCount > 0) {
+    		 	getLogger().info("Updating stats with new playerCount");
+	    		updateDatabase(servername, currentPlayersOnline);
+	    		lastPlayerCount = currentPlayersOnline;
 	    	}
 	    }
 	 
