@@ -53,7 +53,7 @@ public class BloodStats extends JavaPlugin{
 	    	Player[] player = Bukkit.getServer().getOnlinePlayers();
 	    	
 	    	int currentPlayersOnline = player.length;
-    		 	getLogger().info("Updating stats with new playerCount");
+    		 //	getLogger().info("Updating stats with new playerCount");
 	    		updateDatabase(servername, currentPlayersOnline);
 
 	    }
@@ -90,14 +90,14 @@ public class BloodStats extends JavaPlugin{
 				}
 				content += key + "=" + URLEncoder.encode(data.get(key), "UTF-8");
 			}
-			System.out.println(content);
+			//System.out.println(content);
 			out.writeBytes(content);
 			out.flush();
 			out.close();
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
 			while ((line = in.readLine()) != null) {
-				System.out.println(line);
+				//System.out.println(line);
 			}
 			in.close();
 		}
@@ -106,7 +106,7 @@ public class BloodStats extends JavaPlugin{
 			long unixTime = System.currentTimeMillis() / 1000L;
 			long makeUnixTimeImprecise = unixTime/100;
 			makeUnixTimeImprecise = makeUnixTimeImprecise*100;
-			System.out.println(makeUnixTimeImprecise);
+			//System.out.println(makeUnixTimeImprecise);
 			//Time made unprecise for 100s to allow for all servers to post stats.
 			return Long.toString(makeUnixTimeImprecise);
 	    }
