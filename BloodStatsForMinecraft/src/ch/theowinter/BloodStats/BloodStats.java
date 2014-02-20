@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +19,7 @@ public class BloodStats extends JavaPlugin{
 	
 	String servername = "";
 	String uploadURL = "";
-	Hashtable<Player, Integer> onlinePlayers = new Hashtable<Player, Integer>();
+	HashMap<Player, Integer> onlinePlayers = new HashMap<Player, Integer>();
 	
 	 @Override
 	    public void onEnable(){
@@ -111,7 +110,8 @@ public class BloodStats extends JavaPlugin{
 	    	for (int i=0; i<currentlyOnlinePlayerArray.length; i++){
 	    		Integer alreadyLoggedTime = onlinePlayers.get(currentlyOnlinePlayerArray[i]);
 	    		if (alreadyLoggedTime != null){
-			    	onlinePlayers.put(currentlyOnlinePlayerArray[i], (alreadyLoggedTime+4));
+	    			
+			    	onlinePlayers.put(currentlyOnlinePlayerArray[i], (new Integer(alreadyLoggedTime.intValue()+4)));
 	    		}
 	    		else {
 			    	onlinePlayers.put(currentlyOnlinePlayerArray[i], Integer.valueOf(1));
