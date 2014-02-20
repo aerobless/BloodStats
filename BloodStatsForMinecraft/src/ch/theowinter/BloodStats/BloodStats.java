@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -19,10 +20,10 @@ public class BloodStats extends JavaPlugin{
 	
 	String servername = "";
 	String uploadURL = "";
+	Hashtable<Player, Integer> onlinePlayers = new Hashtable<Player, Integer>();
 	
 	 @Override
 	    public void onEnable(){
-	        // TODO Insert logic to be performed when the plugin is enabled
 		 this.saveDefaultConfig();
 		 servername = BloodStats.this.getConfig().getString("server");
 		 uploadURL = BloodStats.this.getConfig().getString("uploadURL");
@@ -32,7 +33,6 @@ public class BloodStats extends JavaPlugin{
 	 
 	    @Override
 	    public void onDisable() {
-	        // TODO Insert logic to be performed when the plugin is disabled
 		 	getLogger().info("BloodStats successfully exited");
 	    }
 	    
@@ -44,18 +44,16 @@ public class BloodStats extends JavaPlugin{
 	            	checkStats();
 	            	StatsTracker();
 	            }
-	        }, 100*20L  );
+	        }, 240*20L  );
 	    }
 	    
-
 	    //Getting players from single bukkit server
 	    public void checkStats(){
-	    	Player[] player = Bukkit.getServer().getOnlinePlayers();
+	    	Player[] currentlyOnlinePlayerArray = Bukkit.getServer().getOnlinePlayers();
 	    	
-	    	int currentPlayersOnline = player.length;
+	    	int currentPlayersOnline = currentlyOnlinePlayerArray.length;
     		 //	getLogger().info("Updating stats with new playerCount");
 	    		updateDatabase(servername, currentPlayersOnline);
-
 	    }
 	 
 	    public void updateDatabase(String servername, int i) {
@@ -106,9 +104,18 @@ public class BloodStats extends JavaPlugin{
 			long unixTime = System.currentTimeMillis() / 1000L;
 			long makeUnixTimeImprecise = unixTime/100;
 			makeUnixTimeImprecise = makeUnixTimeImprecise*100;
-			//System.out.println(makeUnixTimeImprecise);
-			//Time made unprecise for 100s to allow for all servers to post stats.
 			return Long.toString(makeUnixTimeImprecise);
 	    }
-
+	    
+	    public void updateOnlinePlayers(Player[] currentlyOnlinePlayerArray){
+	    	for (int i=0; i<currentlyOnlinePlayerArray.length; i++){
+	    		Integer alreadyLoggedTime = onlinePlayers.get(currentlyOnlinePlayerArray[i]);
+	    		if (alreadyLoggedTime != null){
+			    	onlinePlayers.put(currentlyOnlinePlayerArray[i], (alreadyLoggedTime+4));
+	    		}
+	    		else {
+			    	onlinePlayers.put(currentlyOnlinePlayerArray[i], Integer.valueOf(1));
+	    		}
+	    	}
+	    }
 }
