@@ -39,7 +39,6 @@ public class BloodStats extends JavaPlugin{
 	        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 	            @Override
 	            public void run() {
-	                // Your code goes here
 	            	checkStats();
 	            	StatsTracker();
 	            }
@@ -87,14 +86,12 @@ public class BloodStats extends JavaPlugin{
 				}
 				content += key + "=" + URLEncoder.encode(data.get(key), "UTF-8");
 			}
-			//System.out.println(content);
 			out.writeBytes(content);
 			out.flush();
 			out.close();
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
 			while ((line = in.readLine()) != null) {
-				//System.out.println(line);
 			}
 			in.close();
 		}
