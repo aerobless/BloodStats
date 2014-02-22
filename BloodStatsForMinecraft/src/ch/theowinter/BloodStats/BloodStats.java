@@ -49,6 +49,9 @@ public class BloodStats extends JavaPlugin{
 	    public void checkStats(){
 	    	Player[] currentlyOnlinePlayerArray = Bukkit.getServer().getOnlinePlayers();
 	    	
+	    	//Give Rewards
+	    	updateAndRewardOnlinePlayers(currentlyOnlinePlayerArray);
+	    	
 	    	int currentPlayersOnline = currentlyOnlinePlayerArray.length;
     		 //	getLogger().info("Updating stats with new playerCount");
 	    		updateDatabase(servername, currentPlayersOnline);
@@ -103,11 +106,17 @@ public class BloodStats extends JavaPlugin{
 			return Long.toString(makeUnixTimeImprecise);
 	    }
 	    
-	    public void updateOnlinePlayers(Player[] currentlyOnlinePlayerArray){
+	    public void updateAndRewardOnlinePlayers(Player[] currentlyOnlinePlayerArray){
 	    	for (int i=0; i<currentlyOnlinePlayerArray.length; i++){
 	    		Integer alreadyLoggedTime = onlinePlayers.get(currentlyOnlinePlayerArray[i]);
 	    		if (alreadyLoggedTime != null){
-	    			
+	    			if (alreadyLoggedTime.intValue()>59){
+	    				currentlyOnlinePlayerArray[i].sendMessage("Thank you for playing on bCloud! We just sent you 50 Crystals :) Do \"/warp shop\" to spend them.");
+	    				//todo: DEPENDENCY iConomy
+	    				Bukkit.getServer().dispatchCommand(getServer().getConsoleSender(), "money give "+currentlyOnlinePlayerArray[i].getName()+" 50");
+	    				alreadyLoggedTime = 1;
+	    				getLogger().info("BloodStats rewarded: "+currentlyOnlinePlayerArray[i].getName());
+	    			}
 			    	onlinePlayers.put(currentlyOnlinePlayerArray[i], (new Integer(alreadyLoggedTime.intValue()+4)));
 	    		}
 	    		else {
