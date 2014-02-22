@@ -39,7 +39,6 @@ public class BloodStats extends JavaPlugin{
 	        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 	            @Override
 	            public void run() {
-	                // Your code goes here
 	            	checkStats();
 	            	StatsTracker();
 	            }
