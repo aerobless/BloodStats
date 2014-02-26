@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BloodStats extends JavaPlugin{
 	
+	//TEST COMMIT TO TEST JENKINS
 	String servername = "";
 	String uploadURL = "";
 	HashMap<Player, Integer> onlinePlayers = new HashMap<Player, Integer>();
