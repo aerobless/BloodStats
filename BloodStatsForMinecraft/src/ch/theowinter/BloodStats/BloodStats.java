@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class BloodStats extends JavaPlugin{
 	
-	//TEST: Another test 2
+	//TEST: Another test 3
 	String servername = "";
 	String uploadURL = "";
 	HashMap<Player, Integer> onlinePlayers = new HashMap<Player, Integer>();
