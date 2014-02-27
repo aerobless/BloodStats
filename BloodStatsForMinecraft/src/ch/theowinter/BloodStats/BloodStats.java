@@ -22,6 +22,7 @@ public class BloodStats extends JavaPlugin{
 	//TEST: Another test 4
 	String servername = "";
 	String uploadURL = "";
+	int rewardTime = 0;
 	HashMap<Player, Integer> onlinePlayers = new HashMap<Player, Integer>();
 	
 	 @Override
@@ -29,6 +30,7 @@ public class BloodStats extends JavaPlugin{
 		 this.saveDefaultConfig();
 		 servername = BloodStats.this.getConfig().getString("server");
 		 uploadURL = BloodStats.this.getConfig().getString("uploadURL");
+		 rewardTime = BloodStats.this.getConfig().getInt("rewardTime");
 		 getLogger().info("BloodStats successfully started");
 		 StatsTracker();
 	    }
@@ -113,13 +115,13 @@ public class BloodStats extends JavaPlugin{
 	    	for (int i=0; i<currentlyOnlinePlayerArray.length; i++){
 	    		Integer alreadyLoggedTime = onlinePlayers.get(currentlyOnlinePlayerArray[i]);
 	    		if (alreadyLoggedTime != null){
-	    			if (alreadyLoggedTime.intValue()>29){
+	    			if (alreadyLoggedTime.intValue()>rewardTime){
 	    				
 	    				Location location = currentlyOnlinePlayerArray[i].getLocation();
 	    				currentlyOnlinePlayerArray[i].getWorld().playSound(location,Sound.LEVEL_UP,1, 0);
 	    				
 	    				currentlyOnlinePlayerArray[i].sendMessage("Thank you for playing on bCloud! We just sent you 50 Crystals :) Do \"/warp shop\" to spend them.");
-	    				//todo: DEPENDENCY iConomy
+	    				//TODO: DEPENDENCY iConomy
 	    				Bukkit.getServer().dispatchCommand(getServer().getConsoleSender(), "money give "+currentlyOnlinePlayerArray[i].getName()+" 50");
 	    				alreadyLoggedTime = 1;
 	    				getLogger().info("BloodStats rewarded: "+currentlyOnlinePlayerArray[i].getName());

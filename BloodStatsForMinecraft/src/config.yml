@@ -1,2 +1,3 @@
 server: SetServerNameHere
 uploadURL: http://yourdomain.com/upload.php
+rewardTime: 29
