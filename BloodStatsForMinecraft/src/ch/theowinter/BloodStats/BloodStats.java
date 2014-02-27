@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -111,7 +113,11 @@ public class BloodStats extends JavaPlugin{
 	    	for (int i=0; i<currentlyOnlinePlayerArray.length; i++){
 	    		Integer alreadyLoggedTime = onlinePlayers.get(currentlyOnlinePlayerArray[i]);
 	    		if (alreadyLoggedTime != null){
-	    			if (alreadyLoggedTime.intValue()>59){
+	    			if (alreadyLoggedTime.intValue()>29){
+	    				
+	    				Location location = currentlyOnlinePlayerArray[i].getLocation();
+	    				currentlyOnlinePlayerArray[i].getWorld().playSound(location,Sound.LEVEL_UP,1, 0);
+	    				
 	    				currentlyOnlinePlayerArray[i].sendMessage("Thank you for playing on bCloud! We just sent you 50 Crystals :) Do \"/warp shop\" to spend them.");
 	    				//todo: DEPENDENCY iConomy
 	    				Bukkit.getServer().dispatchCommand(getServer().getConsoleSender(), "money give "+currentlyOnlinePlayerArray[i].getName()+" 50");
