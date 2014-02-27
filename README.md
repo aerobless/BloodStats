@@ -5,6 +5,8 @@ Is a bukkit plugin for Minecraft that enables you to track how many players you 
 
 The speciality of this plugin is that you can run it on multi-servers as well. This allows you to get a overview over all your servers and not just one.
 
+###Build-Server:
+http://mc.blood-cloud.com:8080 *Get the latest build for the latest version of bukkit or spigot.*
 
 ###License:
 This plugin is currently in development.
