@@ -1,3 +1,4 @@
 server: SetServerNameHere
 uploadURL: http://yourdomain.com/upload.php
-rewardTime: 29
+rewardText: Thank you for playing on bCloud! We just sent you 50 Crystals :) Do "/warp shop" to spend them.
+rewardPeriod: 29

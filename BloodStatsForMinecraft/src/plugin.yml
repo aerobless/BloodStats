@@ -1,3 +1,4 @@
 name: BloodStats
 main: ch.theowinter.BloodStats.BloodStats
 version: 1
+depend: [iConomy]

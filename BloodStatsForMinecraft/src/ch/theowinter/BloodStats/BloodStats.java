@@ -2,6 +2,7 @@ package ch.theowinter.BloodStats;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -18,19 +19,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BloodStats extends JavaPlugin{
-	
-	//TEST: Another test 4
+	//Loaded Parameters
 	String servername = "";
 	String uploadURL = "";
-	int rewardTime = 0;
+	String rewardText = "";
+	int rewardPeriod = 0;
+	
+	//Temporary Parameters
 	HashMap<Player, Integer> onlinePlayers = new HashMap<Player, Integer>();
 	
 	 @Override
 	    public void onEnable(){
 		 this.saveDefaultConfig();
+		 
+		 //Load parameters from configuration
 		 servername = BloodStats.this.getConfig().getString("server");
 		 uploadURL = BloodStats.this.getConfig().getString("uploadURL");
-		 rewardTime = BloodStats.this.getConfig().getInt("rewardTime");
+		 rewardText = BloodStats.this.getConfig().getString(rewardText);
+		 rewardPeriod = BloodStats.this.getConfig().getInt("rewardPeriod");
 		 getLogger().info("BloodStats successfully started");
 		 StatsTracker();
 	    }
@@ -58,7 +64,6 @@ public class BloodStats extends JavaPlugin{
 	    	updateAndRewardOnlinePlayers(currentlyOnlinePlayerArray);
 	    	
 	    	int currentPlayersOnline = currentlyOnlinePlayerArray.length;
-    		 //	getLogger().info("Updating stats with new playerCount");
 	    		updateDatabase(servername, currentPlayersOnline);
 	    }
 	 
@@ -70,12 +75,11 @@ public class BloodStats extends JavaPlugin{
 			try {
 				submitToWeb(uploadURL, data);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				getLogger().info("ERROR: Cought IO Exception from the webUploader. You're URL is probably bad.");
 			}	
 		}
 	    
-	    public void submitToWeb(String url, Map<String, String> data) throws Exception {
+	    public void submitToWeb(String url, Map<String, String> data) throws IOException{
 			URL siteUrl = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) siteUrl.openConnection();
 			conn.setRequestMethod("POST");
@@ -115,13 +119,12 @@ public class BloodStats extends JavaPlugin{
 	    	for (int i=0; i<currentlyOnlinePlayerArray.length; i++){
 	    		Integer alreadyLoggedTime = onlinePlayers.get(currentlyOnlinePlayerArray[i]);
 	    		if (alreadyLoggedTime != null){
-	    			if (alreadyLoggedTime.intValue()>rewardTime){
+	    			if (alreadyLoggedTime.intValue()>rewardPeriod){
 	    				
 	    				Location location = currentlyOnlinePlayerArray[i].getLocation();
 	    				currentlyOnlinePlayerArray[i].getWorld().playSound(location,Sound.LEVEL_UP,1, 0);
 	    				
-	    				currentlyOnlinePlayerArray[i].sendMessage("Thank you for playing on bCloud! We just sent you 50 Crystals :) Do \"/warp shop\" to spend them.");
-	    				//TODO: DEPENDENCY iConomy
+	    				currentlyOnlinePlayerArray[i].sendMessage(rewardText);
 	    				Bukkit.getServer().dispatchCommand(getServer().getConsoleSender(), "money give "+currentlyOnlinePlayerArray[i].getName()+" 50");
 	    				alreadyLoggedTime = 1;
 	    				getLogger().info("BloodStats rewarded: "+currentlyOnlinePlayerArray[i].getName());
