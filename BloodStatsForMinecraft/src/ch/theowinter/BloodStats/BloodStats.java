@@ -37,13 +37,13 @@ public class BloodStats extends JavaPlugin{
 		 uploadURL = BloodStats.this.getConfig().getString("uploadURL");
 		 rewardText = BloodStats.this.getConfig().getString(rewardText);
 		 rewardPeriod = BloodStats.this.getConfig().getInt("rewardPeriod");
-		 getLogger().info("BloodStats successfully started");
+		 getLogger().info("BloodStats has been started sucessfully.");
 		 StatsTracker();
 	    }
 	 
 	    @Override
 	    public void onDisable() {
-		 	getLogger().info("BloodStats successfully exited");
+		 	getLogger().info("BloodStats has been shutdown gracefully.");
 	    }
 	    
 	    public void StatsTracker(){
@@ -127,7 +127,7 @@ public class BloodStats extends JavaPlugin{
 	    				currentlyOnlinePlayerArray[i].sendMessage(rewardText);
 	    				Bukkit.getServer().dispatchCommand(getServer().getConsoleSender(), "money give "+currentlyOnlinePlayerArray[i].getName()+" 50");
 	    				alreadyLoggedTime = 1;
-	    				getLogger().info("BloodStats rewarded: "+currentlyOnlinePlayerArray[i].getName());
+	    				getLogger().info("BloodStats rewarded: "+currentlyOnlinePlayerArray[i].getName()+" after "+rewardPeriod+"min");
 	    			}
 			    	onlinePlayers.put(currentlyOnlinePlayerArray[i], (new Integer(alreadyLoggedTime.intValue()+4)));
 	    		}
